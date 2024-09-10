@@ -1,0 +1,18 @@
+<?php
+add_action('wp_ajax_cmp_fetch_lesson_content', 'cmp_fetch_lesson_content');
+
+function cmp_fetch_lesson_content() {
+    $lesson_id = isset($_POST['lesson_id']) ? intval($_POST['lesson_id']) : 0;
+
+    if ($lesson_id <= 0) {
+        wp_send_json_error('Invalid lesson ID.');
+    }
+
+    $lesson_url = get_permalink($lesson_id);
+
+    if ($lesson_url) {
+        wp_send_json_success($lesson_url);
+    } else {
+        wp_send_json_error('Lesson not found.');
+    }
+}

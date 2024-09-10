@@ -1,0 +1,18 @@
+<?php
+add_action('wp_ajax_cmp_fetch_topic_content', 'cmp_fetch_topic_content');
+
+function cmp_fetch_topic_content() {
+    $topic_id = isset($_POST['topic_id']) ? intval($_POST['topic_id']) : 0;
+
+    if ($topic_id <= 0) {
+        wp_send_json_error('Invalid topic ID.');
+    }
+
+    $topic_url = get_permalink($topic_id);
+
+    if ($topic_url) {
+        wp_send_json_success($topic_url);
+    } else {
+        wp_send_json_error('Topic not found.');
+    }
+}
